@@ -1,0 +1,54 @@
+<mat-card>
+    <mat-card-content>
+        Server Status: {{ serverStatus()()[index]?.result }} <mat-slide-toggle (change)="toggleChanged($event)"
+            [checked]="serverStatus()()[index]?.result === 'running'"
+            [disabled]="!(serverStatus()()[index]?.result === 'down' || serverStatus()()[index]?.result === 'running')" />
+        <h2>Datasources</h2>
+        @for (datasource of datasourceResponse?.result | keyvalue; track datasource.key) {
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{ datasource.key }}</mat-panel-title>
+                <mat-panel-description>{{ datasource.value['jndi-name'] }}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ul style="list-style-type: none;">
+                <li><b>Connection URL:</b> {{ datasource.value['connection-url'].EXPRESSION_VALUE }}</li>
+                <li><b>JNDI:</b> {{ datasource.value['jndi-name'] }}</li>
+                <li><b>Driver:</b> {{ datasource.value['driver-name'] }}</li>
+                <li><b>JTA:</b> {{ datasource.value['jta'] }}</li>
+                <li><b>User:</b> {{ datasource.value['user-name'] }}</li>
+                <li><b>Password:</b> {{ datasource.value['password'] }}</li>
+                <li><b>Initial Pool Size:</b> {{ datasource.value['initial-pool-size'] }}</li>
+                <li><b>Min Pool Size:</b> {{ datasource.value['min-pool-size'] }}</li>
+                <li><b>Max Pool Size:</b> {{ datasource.value['max-pool-size'] }}</li>
+                <li><b>Connection Properties:</b> {{ datasource.value['connection-properties'] }}</li>
+            </ul>
+        </mat-expansion-panel>
+        }
+        <h2>Deployments</h2>
+        @for (deployment of deploymentResponse?.result | keyvalue; track deployment.key) {
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{ deployment.key }}</mat-panel-title>
+                <mat-panel-description>{{ deployment.value['runtime-name'] }}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ul style="list-style-type: none;">
+                <li><b>Enabled:</b> {{ deployment.value['enabled'] }}</li>
+                <li><b>Runtime Name:</b> {{ deployment.value['runtime-name'] }}</li>
+            </ul>
+        </mat-expansion-panel>
+        }
+        <h2>JNDI Bindings</h2>
+        @for (binding of namingBindingResponse?.result | keyvalue; track binding.key) {
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{ binding.key }}</mat-panel-title>
+                <mat-panel-description>{{ binding.value['value'] }}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ul style="list-style-type: none;">
+                <li><b>Type:</b> {{ binding.value['type'] }}</li>
+                <li><b>Value:</b> {{ binding.value['value'] }}</li>
+            </ul>
+        </mat-expansion-panel>
+        }
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,6 @@
+de\tobias\server_management\rest\RestClientFactory.class
+de\tobias\server_management\ServerManagementApplication.class
+de\tobias\server_management\service\WildflyService.class
+de\tobias\server_management\rest\WildflyController.class
+de\tobias\server_management\WildflyServer.class
+de\tobias\server_management\ServerProperties.class

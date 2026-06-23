@@ -1,0 +1,24 @@
+h1 {
+    text-align: center;
+}
+
+.tab-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.tab-label mat-chip {
+  font-size: 10px;
+  height: 20px;
+  margin-bottom: 6px;
+}
+
+.running {
+  background-color: rgb(165, 255, 155) !important;
+}
+
+.down {
+  background-color: rgb(255, 128, 128) !important;
+}

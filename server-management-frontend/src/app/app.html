@@ -1,0 +1,15 @@
+<h1>Server Management</h1>
+
+<mat-tab-group>
+  @for (item of serverList; track item) {
+    <mat-tab label="{{ item.apiUrl.split('/')[2] }}">
+      <ng-template mat-tab-label>
+        <div class="tab-label">
+          <span>{{ item.apiUrl.split('/')[2] }}</span>
+          <mat-chip class="{{ getColorClass($index) }}">{{ item.tag }}</mat-chip>
+        </div>
+      </ng-template>
+      <app-wildfly [serverStatus]="serverStatus" [index]="$index" [apiUrl]="item.apiUrl" />
+    </mat-tab>
+  }
+</mat-tab-group>
