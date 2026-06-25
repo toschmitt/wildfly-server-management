@@ -4,153 +4,118 @@ import { Observable } from "rxjs";
 
 @Service()
 export class WildflyService {
-    private httpClient : HttpClient = inject(HttpClient);
+  private httpClient: HttpClient = inject(HttpClient);
 
-    serverList(): Observable<WildflyServer[]> {
-       return this.httpClient.get<WildflyServer[]>("http://localhost:26900/api");
-    }
+  serverList(): Observable<WildflyServer[]> {
+    return this.httpClient.get<WildflyServer[]>("http://localhost:26900/api");
+  }
 
-    serverStatus(index: number): Observable<ServerStatus> {
-        return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index);
-    }
-    
-    startServer(index: number): Observable<ServerStatus> {
-        return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index + "/start");
-    }
+  serverStatus(index: number): Observable<ServerStatus> {
+    return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index);
+  }
 
-    stopServer(index: number): Observable<ServerStatus> {
-        return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index + "/shutdown");
-    }
+  startServer(index: number): Observable<ServerStatus> {
+    return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index + "/start");
+  }
 
-    datasources(index: number): Observable<DatasourceResponse> {
-        return this.httpClient.get<DatasourceResponse>("http://localhost:26900/api/server/" + index + "/datasources");
-    }
+  stopServer(index: number): Observable<ServerStatus> {
+    return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index + "/shutdown");
+  }
 
-    deployments(index: number): Observable<DeploymentResponse> {
-        return this.httpClient.get<DeploymentResponse>("http://localhost:26900/api/server/" + index + "/deployments");
-    }
+  datasources(index: number): Observable<DatasourceResponse> {
+    return this.httpClient.get<DatasourceResponse>("http://localhost:26900/api/server/" + index + "/datasources");
+  }
 
-    jndiBindings(index: number): Observable<NamingBindingResponse> {
-        return this.httpClient.get<NamingBindingResponse>("http://localhost:26900/api/server/" + index + "/jndi-bindings");
-    }
+  deployments(index: number): Observable<DeploymentResponse> {
+    return this.httpClient.get<DeploymentResponse>("http://localhost:26900/api/server/" + index + "/deployments");
+  }
+
+  jndiBindings(index: number): Observable<NamingBindingResponse> {
+    return this.httpClient.get<NamingBindingResponse>("http://localhost:26900/api/server/" + index + "/jndi-bindings");
+  }
 }
 
 export interface WildflyServer {
-    apiUrl: string;
-    tag: string;
+  apiUrl: string;
+  tag: string;
 }
 
 export interface ServerStatus {
-    outcome: string;
-    result: string;
+  outcome: string;
+  result: string;
+}
+
+export interface DatasourceResponse {
+  outcome: string;
+  result: DatasourcesResult;
+}
+
+export interface DatasourcesResult {
+  "data-source": Record<string, DataSource>;
+  "xa-data-source": Record<string, XaDataSource>;
+  "jdbc-driver": Record<string, JdbcDriver>;
+}
+
+export interface JdbcDriver {
+  "deployment-name": string | null;
+  "driver-class-name": string | null;
+  "driver-datasource-class-name": string | null;
+  "driver-major-version": number | null;
+  "driver-minor-version": number | null;
+  "driver-module-name": string | null;
+  "driver-name": string;
+  "driver-xa-datasource-class-name": string | null;
+  "jdbc-compliant": boolean | null;
+  "module-slot": string | null;
+  "profile": string | null;
+}
+
+export interface DataSource {
+  "jndi-name": string;
+  "driver-name": string;
+  "user-name": string | null;
+  "password": string | null;
+
+  "connection-url": string | null;
+
+  "enabled": boolean;
+  "jta": boolean;
+
+  "min-pool-size": number | null;
+  "max-pool-size": number | null;
+  "initial-pool-size": number | null;
+
+  "statistics-enabled": boolean;
+
+  [key: string]: unknown;
+}
+
+export interface XaDataSource {
+  "jndi-name": string;
+  "driver-name": string;
+  "user-name": string | null;
+  "password": string | null;
+
+  "enabled": boolean;
+
+  "interleaving": boolean;
+  "no-recovery": boolean;
+  "wrap-xa-resource": boolean;
+
+  "xa-datasource-class": string | null;
+  "xa-resource-timeout": number | null;
+
+  "xa-datasource-properties": Record<string, XaProperty>;
+
+  [key: string]: unknown;
+}
+
+export interface XaProperty {
+  value: string | number | boolean | ExpressionValue;
 }
 
 export interface ExpressionValue {
   EXPRESSION_VALUE: string;
-}
-
-export interface Datasource {
-  "allocation-retry": number | null;
-  "allocation-retry-wait-millis": number | null;
-  "allow-multiple-users": boolean;
-  "authentication-context": string | null;
-  "background-validation": boolean | null;
-  "background-validation-millis": number | null;
-  "blocking-timeout-wait-millis": number | null;
-
-  "capacity-decrementer-class": string | null;
-  "capacity-decrementer-properties": unknown | null;
-  "capacity-incrementer-class": string | null;
-  "capacity-incrementer-properties": unknown | null;
-
-  "check-valid-connection-sql": string | null;
-  "connectable": boolean;
-
-  "connection-listener-class": string | null;
-  "connection-listener-property": unknown | null;
-
-  "connection-url": ExpressionValue;
-
-  "credential-reference": unknown | null;
-  "datasource-class": string | null;
-  "driver-class": string | null;
-  "driver-name": string;
-
-  "elytron-enabled": boolean;
-  "enabled": boolean;
-  "enlistment-trace": boolean;
-
-  "exception-sorter-class-name": string | null;
-  "exception-sorter-module": string | null;
-  "exception-sorter-properties": unknown | null;
-
-  "flush-strategy": string | null;
-
-  "idle-timeout-minutes": number | null;
-  "initial-pool-size": number | null;
-
-  "jndi-name": string;
-  "jta": boolean;
-
-  "max-pool-size": number | null;
-  "mcp": string;
-  "min-pool-size": number | null;
-
-  "new-connection-sql": string | null;
-  "password": string;
-
-  "pool-fair": boolean | null;
-  "pool-prefill": boolean | null;
-  "pool-use-strict-min": boolean | null;
-
-  "prepared-statements-cache-size": number | null;
-  "query-timeout": number | null;
-
-  "reauth-plugin-class-name": string | null;
-  "reauth-plugin-properties": unknown | null;
-
-  "security-domain": string | null;
-
-  "set-tx-query-timeout": boolean;
-  "share-prepared-statements": boolean;
-  "spy": boolean;
-
-  "stale-connection-checker-class-name": string | null;
-  "stale-connection-checker-module": string | null;
-  "stale-connection-checker-properties": unknown | null;
-
-  "statistics-enabled": ExpressionValue;
-  "track-statements": string;
-  "tracking": boolean;
-
-  "transaction-isolation": string | null;
-  "url-delimiter": string | null;
-  "url-selector-strategy-class-name": string | null;
-
-  "use-ccm": boolean;
-  "use-fast-fail": boolean;
-  "use-java-context": boolean;
-  "use-try-lock": number | null;
-
-  "user-name": string;
-
-  "valid-connection-checker-class-name": string | null;
-  "valid-connection-checker-module": string | null;
-  "valid-connection-checker-properties": unknown | null;
-
-  "validate-on-match": boolean | null;
-
-  "connection-properties": unknown | null;
-  "statistics": unknown | null;
-}
-
-export interface DatasourceResult {
-  [datasourceName: string]: Datasource;
-}
-
-export interface DatasourceResponse {
-  outcome: "success" | "failed";
-  result: DatasourceResult;
 }
 
 export interface BytesValue {

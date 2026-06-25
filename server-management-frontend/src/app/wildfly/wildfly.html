@@ -4,14 +4,14 @@
             [checked]="serverStatus()()[index]?.result === 'running'"
             [disabled]="!(serverStatus()()[index]?.result === 'down' || serverStatus()()[index]?.result === 'running')" />
         <h2>Datasources</h2>
-        @for (datasource of datasourceResponse?.result | keyvalue; track datasource.key) {
+        @for (datasource of datasources | keyvalue; track datasource.key) {
         <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header>
                 <mat-panel-title>{{ datasource.key }}</mat-panel-title>
                 <mat-panel-description>{{ datasource.value['jndi-name'] }}</mat-panel-description>
             </mat-expansion-panel-header>
             <ul style="list-style-type: none;">
-                <li><b>Connection URL:</b> {{ datasource.value['connection-url'].EXPRESSION_VALUE }}</li>
+                <li><b>Connection URL:</b> {{ datasource.value['connection-url'] }}</li>
                 <li><b>JNDI:</b> {{ datasource.value['jndi-name'] }}</li>
                 <li><b>Driver:</b> {{ datasource.value['driver-name'] }}</li>
                 <li><b>JTA:</b> {{ datasource.value['jta'] }}</li>
@@ -21,6 +21,26 @@
                 <li><b>Min Pool Size:</b> {{ datasource.value['min-pool-size'] }}</li>
                 <li><b>Max Pool Size:</b> {{ datasource.value['max-pool-size'] }}</li>
                 <li><b>Connection Properties:</b> {{ datasource.value['connection-properties'] }}</li>
+            </ul>
+        </mat-expansion-panel>
+        }
+        @for (datasource of xaDataSources | keyvalue; track datasource.key) {
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{ datasource.key }}</mat-panel-title>
+                <mat-panel-description>{{ datasource.value['jndi-name'] }}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <ul style="list-style-type: none;">
+                <li><b>Connection URL:</b> {{ datasource.value['xa-datasource-properties']['URL']['value'] }}</li>
+                <li><b>JNDI:</b> {{ datasource.value['jndi-name'] }}</li>
+                <li><b>Driver:</b> {{ datasource.value['driver-name'] }}</li>
+                <li><b>JTA:</b> {{ datasource.value['jta'] }}</li>
+                <li><b>User:</b> {{ datasource.value['user-name'] }}</li>
+                <li><b>Password:</b> {{ datasource.value['password'] }}</li>
+                <li><b>Initial Pool Size:</b> {{ datasource.value['initial-pool-size'] }}</li>
+                <li><b>Min Pool Size:</b> {{ datasource.value['min-pool-size'] }}</li>
+                <li><b>Max Pool Size:</b> {{ datasource.value['max-pool-size'] }}</li>
+                <li><b>Connection Properties:</b> {{ datasource.value['xa-datasource-properties'] | json }}</li>
             </ul>
         </mat-expansion-panel>
         }

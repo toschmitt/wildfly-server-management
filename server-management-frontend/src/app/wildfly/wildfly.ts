@@ -1,14 +1,14 @@
 import { Component, inject, Input, ChangeDetectorRef, input, WritableSignal } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatSlideToggleChange, MatSlideToggleModule} from '@angular/material/slide-toggle'
-import { DatasourceResponse, DeploymentResponse, NamingBindingResponse, ServerStatus, WildflyService } from '../../service/wildfly.service';
+import { DataSource, DatasourceResponse, DeploymentResponse, NamingBindingResponse, ServerStatus, WildflyService, XaDataSource } from '../../service/wildfly.service';
 import { interval, Observable } from 'rxjs';
-import { KeyValuePipe } from '@angular/common';
+import { JsonPipe, KeyValuePipe } from '@angular/common';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-wildfly',
-  imports: [MatCardModule, MatSlideToggleModule, MatExpansionModule, KeyValuePipe],
+  imports: [MatCardModule, MatSlideToggleModule, MatExpansionModule, KeyValuePipe, JsonPipe],
   templateUrl: './wildfly.html',
   styleUrl: './wildfly.scss',
 })
@@ -21,7 +21,8 @@ export class Wildfly {
 
   serverStatus = input.required<WritableSignal<Record<number, ServerStatus>>>();
 
-  datasourceResponse!: DatasourceResponse;
+  datasources!: Record<string, DataSource>;
+  xaDataSources!: Record<string, XaDataSource>;
   deploymentResponse!: DeploymentResponse;
   namingBindingResponse!: NamingBindingResponse;
 
@@ -35,7 +36,8 @@ export class Wildfly {
 
   private updateData() {
     this.wildflyService.datasources(this.index).subscribe((d) => {
-      this.datasourceResponse = d;
+      this.datasources = d.result['data-source'];
+      this.xaDataSources = d.result['xa-data-source'];
       this.cdr.detectChanges();
     });
 
