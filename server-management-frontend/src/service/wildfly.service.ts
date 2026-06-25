@@ -7,31 +7,31 @@ export class WildflyService {
   private httpClient: HttpClient = inject(HttpClient);
 
   serverList(): Observable<WildflyServer[]> {
-    return this.httpClient.get<WildflyServer[]>("http://localhost:26900/api");
+    return this.httpClient.get<WildflyServer[]>("http://dojb129d:26900/api");
   }
 
   serverStatus(index: number): Observable<ServerStatus> {
-    return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index);
+    return this.httpClient.get<ServerStatus>("http://dojb129d:26900/api/server/" + index);
   }
 
   startServer(index: number): Observable<ServerStatus> {
-    return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index + "/start");
+    return this.httpClient.get<ServerStatus>("http://dojb129d:26900/api/server/" + index + "/start");
   }
 
   stopServer(index: number): Observable<ServerStatus> {
-    return this.httpClient.get<ServerStatus>("http://localhost:26900/api/server/" + index + "/shutdown");
+    return this.httpClient.get<ServerStatus>("http://dojb129d:26900/api/server/" + index + "/shutdown");
   }
 
   datasources(index: number): Observable<DatasourceResponse> {
-    return this.httpClient.get<DatasourceResponse>("http://localhost:26900/api/server/" + index + "/datasources");
+    return this.httpClient.get<DatasourceResponse>("http://dojb129d:26900/api/server/" + index + "/datasources");
   }
 
   deployments(index: number): Observable<DeploymentResponse> {
-    return this.httpClient.get<DeploymentResponse>("http://localhost:26900/api/server/" + index + "/deployments");
+    return this.httpClient.get<DeploymentResponse>("http://dojb129d:26900/api/server/" + index + "/deployments");
   }
 
   jndiBindings(index: number): Observable<NamingBindingResponse> {
-    return this.httpClient.get<NamingBindingResponse>("http://localhost:26900/api/server/" + index + "/jndi-bindings");
+    return this.httpClient.get<NamingBindingResponse>("http://dojb129d:26900/api/server/" + index + "/jndi-bindings");
   }
 }
 
